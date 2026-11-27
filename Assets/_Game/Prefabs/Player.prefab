@@ -48,6 +48,8 @@ GameObject:
   - component: {fileID: 9211208927912137843}
   - component: {fileID: 6629745633630411847}
   - component: {fileID: 6516978343896138760}
+  - component: {fileID: 7839567785005999742}
+  - component: {fileID: 5483794664122776396}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -206,6 +208,33 @@ MonoBehaviour:
   spriteRenderer: {fileID: 1055372521147454306}
   flashColor: {r: 1, g: 0.25, b: 0.25, a: 1}
   duration: 0.1
+--- !u!114 &7839567785005999742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252390514496865003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0624306a2a908d44db8887628361a7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HunterVsDino::HunterVsDino.Progression.PlayerExperience
+  baseXP: 5
+  xpIncrement: 8
+--- !u!114 &5483794664122776396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252390514496865003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b782176f0032944f8d8f93611f4b019, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HunterVsDino::HunterVsDino.Progression.PlayerPickupCollector
+  magnetRadius: 2
 --- !u!1 &3930293985363808592
 GameObject:
   m_ObjectHideFlags: 0

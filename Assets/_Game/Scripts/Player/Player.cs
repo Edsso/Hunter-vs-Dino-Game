@@ -1,5 +1,6 @@
 using System;
 using HunterVsDino.Combat;
+using HunterVsDino.Progression;
 using UnityEngine;
 
 namespace HunterVsDino.Players
@@ -21,6 +22,7 @@ namespace HunterVsDino.Players
         public int PlayerIndex => playerIndex;
         public PlayerMotor Motor { get; private set; }
         public Health Health { get; private set; }
+        public PlayerExperience Experience { get; private set; }
         public bool IsDead => Health.IsDead;
 
         /// <summary>Raised once when this hunter dies.</summary>
@@ -30,6 +32,7 @@ namespace HunterVsDino.Players
         {
             Motor = GetComponent<PlayerMotor>();
             Health = GetComponent<Health>();
+            Experience = GetComponent<PlayerExperience>();
             Health.Died += OnDied;
         }
 
@@ -55,6 +58,7 @@ namespace HunterVsDino.Players
             Motor.enabled = false;
             if (TryGetComponent(out Rigidbody2D body)) body.linearVelocity = Vector2.zero;
             if (TryGetComponent(out Collider2D col)) col.enabled = false;
+            if (TryGetComponent(out PlayerPickupCollector collector)) collector.enabled = false;
 
             if (visual != null) visual.color = deadColor;
 
