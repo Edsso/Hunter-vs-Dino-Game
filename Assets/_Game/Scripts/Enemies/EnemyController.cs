@@ -1,3 +1,4 @@
+using System;
 using HunterVsDino.Combat;
 using HunterVsDino.Players;
 using UnityEngine;
@@ -5,8 +6,10 @@ using UnityEngine;
 namespace HunterVsDino.Enemies
 {
     /// <summary>
-    /// Generic dinosaur: takes its look and stats from an <see cref="EnemyData"/> and
-    /// walks toward the nearest hunter. Special behaviours (charge, flying) come later as extra components.
+    /// Generic dinosaur: takes its look and stats from an <see cref="EnemyData"/> and walks toward the
+    /// nearest hunter. Special behaviours (charge, roar...) are extra components on a prefab variant;
+    /// they take over movement with <see cref="SetVelocityOverride"/> and use the action lock so two
+    /// behaviours never act at the same time.
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D), typeof(Health))]
     public class EnemyController : MonoBehaviour
@@ -15,12 +18,26 @@ namespace HunterVsDino.Enemies
         [SerializeField] private SpriteRenderer spriteRenderer;
 
         private Rigidbody2D body;
+        private float rootedUntil;
+        private bool hasVelocityOverride;
+        private Vector2 velocityOverride;
+        private object actionOwner;
 
         public EnemyData Data => data;
         public Health Health { get; private set; }
+        public SpriteRenderer SpriteRenderer => spriteRenderer;
+        public Rigidbody2D Body => body;
+
+        /// <summary>Contact damage after the difficulty multiplier of when it spawned.</summary>
+        public float ContactDamage { get; private set; }
+
+        /// <summary>Held in place (trap, bola). It can still be hit and still hurts on contact.</summary>
+        public bool IsRooted => Time.time < rootedUntil;
 
         /// <summary>Raised when this dino dies (XP drops and kill counters hook in here).</summary>
-        public event System.Action<EnemyController> Died;
+        public event Action<EnemyController> Died;
+        /// <summary>Raised after <see cref="Init"/>: behaviours reset their state here (works with pooling).</summary>
+        public event Action<EnemyController> Initialized;
 
         private void Awake()
         {
@@ -51,25 +68,13 @@ namespace HunterVsDino.Enemies
         {
             data = enemyData;
             rootedUntil = 0f;
+            hasVelocityOverride = false;
+            actionOwner = null;
             transform.position = position;
             body.position = position;
             body.linearVelocity = Vector2.zero;
             ApplyData(healthMultiplier, damageMultiplier);
-        }
-
-        /// <summary>Contact damage after the difficulty multiplier of when it spawned.</summary>
-        public float ContactDamage { get; private set; }
-
-        private float rootedUntil;
-
-        /// <summary>Held in place (trap, bola). It can still be hit and still hurts on contact.</summary>
-        public bool IsRooted => Time.time < rootedUntil;
-
-        /// <summary>Stops the dino for <paramref name="seconds"/>. Bosses shake it off 4x faster.</summary>
-        public void Root(float seconds)
-        {
-            if (data != null && data.isBoss) seconds *= 0.25f;
-            rootedUntil = Mathf.Max(rootedUntil, Time.time + seconds);
+            Initialized?.Invoke(this);
         }
 
         private void ApplyData(float healthMultiplier = 1f, float damageMultiplier = 1f)
@@ -86,26 +91,70 @@ namespace HunterVsDino.Enemies
             }
         }
 
+        // ---------- Hooks for behaviours ----------
+
+        /// <summary>Stops the dino for <paramref name="seconds"/>. Bosses shake it off 4x faster.</summary>
+        public void Root(float seconds)
+        {
+            if (data != null && data.isBoss) seconds *= 0.25f;
+            rootedUntil = Mathf.Max(rootedUntil, Time.time + seconds);
+        }
+
+        /// <summary>Move with this velocity instead of chasing (a charge, a windup that stands still...).</summary>
+        public void SetVelocityOverride(Vector2 velocity)
+        {
+            hasVelocityOverride = true;
+            velocityOverride = velocity;
+        }
+
+        public void ClearVelocityOverride() => hasVelocityOverride = false;
+
+        /// <summary>True while some behaviour is in the middle of an action.</summary>
+        public bool IsBusy => actionOwner != null;
+
+        /// <summary>Claim the dino for an action. Fails if another behaviour is acting.</summary>
+        public bool TryBeginAction(object owner)
+        {
+            if (actionOwner != null && actionOwner != owner) return false;
+            actionOwner = owner;
+            return true;
+        }
+
+        public void EndAction(object owner)
+        {
+            if (actionOwner != owner) return;
+            actionOwner = null;
+            hasVelocityOverride = false;
+        }
+
+        /// <summary>Unit vector toward the nearest hunter (zero if none).</summary>
+        public Vector2 DirectionToNearestPlayer(out float distance)
+        {
+            Player target = PlayerRegistry.GetNearest(body.position);
+            if (target == null) { distance = float.MaxValue; return Vector2.zero; }
+            Vector2 to = (Vector2)target.transform.position - body.position;
+            distance = to.magnitude;
+            return distance > 0.0001f ? to / distance : Vector2.zero;
+        }
+
         private void OnEnable() => EnemyRegistry.Register(this);
         private void OnDisable() => EnemyRegistry.Unregister(this);
 
         private void FixedUpdate()
         {
-            if (IsRooted)
+            if (IsRooted || data == null)
             {
                 body.linearVelocity = Vector2.zero;
                 return;
             }
 
-            Player target = PlayerRegistry.GetNearest(body.position);
-            if (target == null || data == null)
+            if (hasVelocityOverride)
             {
-                body.linearVelocity = Vector2.zero;
+                body.linearVelocity = velocityOverride;
                 return;
             }
 
-            Vector2 toTarget = (Vector2)target.transform.position - body.position;
-            Vector2 dir = toTarget.sqrMagnitude > 0.0001f ? toTarget.normalized : Vector2.zero;
+            Vector2 dir = DirectionToNearestPlayer(out _);
             body.linearVelocity = dir * data.moveSpeed;
 
             // Placeholder sprites flip to face the player (works for any sprite, including final art).

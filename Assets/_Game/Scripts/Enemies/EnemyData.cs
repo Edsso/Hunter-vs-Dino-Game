@@ -13,6 +13,8 @@ namespace HunterVsDino.Enemies
         public string displayName = "Dino";
         [Tooltip("Bosses resist roots and can't be tamed.")]
         public bool isBoss;
+        [Tooltip("Optional prefab variant with extra behaviours (charge, flying...). Empty = the generic Enemy prefab.")]
+        public EnemyController prefabOverride;
 
         [Header("Look (placeholder until final art)")]
         public Sprite sprite;

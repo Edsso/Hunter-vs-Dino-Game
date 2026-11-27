@@ -18,7 +18,7 @@ namespace HunterVsDino.Combat
                 if (!filterReady)
                 {
                     enemyFilter = new ContactFilter2D { useTriggers = false };
-                    enemyFilter.SetLayerMask(LayerMask.GetMask("Enemy"));
+                    enemyFilter.SetLayerMask(LayerMask.GetMask("Enemy", "EnemyFlying"));
                     filterReady = true;
                 }
                 return enemyFilter;

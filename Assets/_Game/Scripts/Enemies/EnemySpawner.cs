@@ -84,7 +84,8 @@ namespace HunterVsDino.Enemies
 
         public EnemyController Spawn(EnemyData data, Vector2 position, float healthMultiplier = 1f, float damageMultiplier = 1f)
         {
-            var enemy = Instantiate(enemyPrefab, position, Quaternion.identity, transform);
+            var prefab = data.prefabOverride != null ? data.prefabOverride : enemyPrefab;
+            var enemy = Instantiate(prefab, position, Quaternion.identity, transform);
             enemy.Init(data, position, healthMultiplier, damageMultiplier);
             return enemy;
         }
