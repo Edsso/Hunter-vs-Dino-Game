@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 721f72f22bf91e24695da17e896ee519, type: 3}
+  m_Name: DefaultUpgradePool
+  m_EditorClassIdentifier: HunterVsDino::HunterVsDino.Progression.UpgradePool
+  upgrades:
+  - {fileID: 11400000, guid: ac2222bf5af6cd249818d3c27fedaf99, type: 2}
+  - {fileID: 11400000, guid: d420eb778eab51e46a92db757bc0101f, type: 2}
+  - {fileID: 11400000, guid: 68374fb7726647d4aae1088b8d909a41, type: 2}
+  - {fileID: 11400000, guid: b5612c33af748db44b7b39552fd51fba, type: 2}
+  - {fileID: 11400000, guid: 89714a3c746bd944797fe7da0e4f3f7c, type: 2}
+  - {fileID: 11400000, guid: 45a3e4a5335900541b3446ba8dda9820, type: 2}
+  - {fileID: 11400000, guid: 52ab7596c89371c418004853be00737a, type: 2}
+  - {fileID: 11400000, guid: bc3a5f9cb8df2da42b07b0407bcd39ee, type: 2}
+  fallback: {fileID: 11400000, guid: de88e516e943f3a44abf54a4ba616a07, type: 2}

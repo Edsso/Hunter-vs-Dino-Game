@@ -16,6 +16,7 @@ namespace HunterVsDino.Core
     /// <summary>
     /// Owns the run state machine (playing, level up, game over, victory) and pausing.
     /// It watches the players through <see cref="PlayerRegistry"/>: the run ends when no hunter is left alive.
+    /// Only this class writes Time.timeScale, so pauses never fight each other.
     /// </summary>
     public class GameManager : MonoBehaviour
     {
@@ -24,13 +25,24 @@ namespace HunterVsDino.Core
         public RunState State { get; private set; } = RunState.Playing;
         public RunTimer Timer => runTimer;
 
+        /// <summary>Game speed while playing (debug x10 sets this).</summary>
+        public float PlaySpeed
+        {
+            get => playSpeed;
+            set
+            {
+                playSpeed = Mathf.Max(0f, value);
+                if (State == RunState.Playing) Time.timeScale = playSpeed;
+            }
+        }
+
         public event Action<RunState> StateChanged;
 
+        private float playSpeed = 1f;
         private bool sawPlayers;
 
         private void Start()
         {
-            Time.timeScale = 1f;
             SetState(RunState.Playing);
         }
 
@@ -43,11 +55,23 @@ namespace HunterVsDino.Core
             else if (sawPlayers) GameOver();
         }
 
+        /// <summary>Pause for the upgrade choice. Returns false if the run can't pause now.</summary>
+        public bool EnterLevelUp()
+        {
+            if (State != RunState.Playing) return false;
+            SetState(RunState.LevelUp);
+            return true;
+        }
+
+        public void ExitLevelUp()
+        {
+            if (State == RunState.LevelUp) SetState(RunState.Playing);
+        }
+
         public void GameOver()
         {
             if (State == RunState.GameOver) return;
             runTimer.Pause();
-            Time.timeScale = 0f;
             SetState(RunState.GameOver);
         }
 
@@ -60,7 +84,13 @@ namespace HunterVsDino.Core
         private void SetState(RunState state)
         {
             State = state;
+            Time.timeScale = state == RunState.Playing ? playSpeed : 0f;
             StateChanged?.Invoke(state);
+        }
+
+        private void OnDestroy()
+        {
+            Time.timeScale = 1f;
         }
     }
 }

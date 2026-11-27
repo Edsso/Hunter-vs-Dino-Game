@@ -22,18 +22,18 @@ namespace HunterVsDino.Combat
             body = GetComponent<Rigidbody2D>();
         }
 
-        public void Launch(WeaponData data, Vector2 position, Vector2 direction)
+        public void Launch(WeaponData data, ShotStats shot, Vector2 position, Vector2 direction)
         {
             transform.position = position;
             body.position = position;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
             transform.rotation = Quaternion.Euler(0f, 0f, angle);
             body.rotation = angle;
-            body.linearVelocity = direction.normalized * data.projectileSpeed;
+            body.linearVelocity = direction.normalized * shot.speed;
 
-            damage = data.damage;
-            hitsLeft = data.pierce + 1;
-            expireTime = Time.time + data.projectileLifetime;
+            damage = shot.damage;
+            hitsLeft = shot.pierce + 1;
+            expireTime = Time.time + shot.lifetime;
 
             transform.localScale = Vector3.one * data.projectileSize;
             if (spriteRenderer != null)

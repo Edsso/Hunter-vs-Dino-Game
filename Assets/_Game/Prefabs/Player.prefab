@@ -50,6 +50,8 @@ GameObject:
   - component: {fileID: 6516978343896138760}
   - component: {fileID: 7839567785005999742}
   - component: {fileID: 5483794664122776396}
+  - component: {fileID: 834591949758839888}
+  - component: {fileID: 1447691002331966826}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -235,6 +237,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: HunterVsDino::HunterVsDino.Progression.PlayerPickupCollector
   magnetRadius: 2
+--- !u!114 &834591949758839888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252390514496865003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fd5e10772bab1f4cae21760c1367911, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HunterVsDino::HunterVsDino.Players.PlayerStats
+--- !u!114 &1447691002331966826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252390514496865003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cabcb637d39dc234688c5ed45211b533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HunterVsDino::HunterVsDino.Progression.PlayerUpgrades
 --- !u!1 &3930293985363808592
 GameObject:
   m_ObjectHideFlags: 0
