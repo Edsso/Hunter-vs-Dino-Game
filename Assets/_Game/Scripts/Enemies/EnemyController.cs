@@ -1,3 +1,4 @@
+using HunterVsDino.Combat;
 using HunterVsDino.Players;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace HunterVsDino.Enemies
     /// Generic dinosaur: takes its look and stats from an <see cref="EnemyData"/> and
     /// walks toward the nearest hunter. Special behaviours (charge, flying) come later as extra components.
     /// </summary>
-    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Rigidbody2D), typeof(Health))]
     public class EnemyController : MonoBehaviour
     {
         [SerializeField] private EnemyData data;
@@ -16,11 +17,29 @@ namespace HunterVsDino.Enemies
         private Rigidbody2D body;
 
         public EnemyData Data => data;
+        public Health Health { get; private set; }
+
+        /// <summary>Raised when this dino dies (XP drops and kill counters hook in here).</summary>
+        public event System.Action<EnemyController> Died;
 
         private void Awake()
         {
             body = GetComponent<Rigidbody2D>();
+            Health = GetComponent<Health>();
+            Health.Died += OnDied;
             if (data != null) ApplyData();
+        }
+
+        private void OnDestroy()
+        {
+            if (Health != null) Health.Died -= OnDied;
+        }
+
+        private void OnDied()
+        {
+            Died?.Invoke(this);
+            // Etapa 4 (performance): return to a pool instead of destroying.
+            Destroy(gameObject);
         }
 
         /// <summary>
@@ -41,6 +60,7 @@ namespace HunterVsDino.Enemies
             name = data.displayName;
             transform.localScale = Vector3.one * data.size;
             body.mass = data.mass;
+            Health.ResetHealth(data.maxHealth);
             if (spriteRenderer != null)
             {
                 if (data.sprite != null) spriteRenderer.sprite = data.sprite;

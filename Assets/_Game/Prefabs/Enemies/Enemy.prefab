@@ -104,6 +104,9 @@ GameObject:
   - component: {fileID: 6791882980493543536}
   - component: {fileID: 1428496787903675131}
   - component: {fileID: 5131694418682459452}
+  - component: {fileID: 4111007667898124902}
+  - component: {fileID: 5260998451275906059}
+  - component: {fileID: 4461921704211043680}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -204,3 +207,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: HunterVsDino::HunterVsDino.Enemies.EnemyController
   data: {fileID: 0}
   spriteRenderer: {fileID: 8350005873322557403}
+--- !u!114 &4111007667898124902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5773908424388509634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfb68d151084f8a4693f700bb02f11f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HunterVsDino::HunterVsDino.Combat.Health
+  maxHealth: 100
+--- !u!114 &5260998451275906059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5773908424388509634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cab6b08d81fc6eb4f9fb5e6bab6fb399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HunterVsDino::HunterVsDino.Combat.DamageFlash
+  health: {fileID: 4111007667898124902}
+  spriteRenderer: {fileID: 8350005873322557403}
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  duration: 0.1
+--- !u!114 &4461921704211043680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5773908424388509634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 771c0a8522d206f4e87c1902661337da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HunterVsDino::HunterVsDino.Enemies.EnemyContactDamage
+  hitInterval: 0.75
