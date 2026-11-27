@@ -38,6 +38,7 @@ namespace HunterVsDino.Enemies
         private void OnDied()
         {
             Died?.Invoke(this);
+            EnemyRegistry.RaiseDied(this);
             // Etapa 4 (performance): return to a pool instead of destroying.
             Destroy(gameObject);
         }

@@ -11,6 +11,11 @@ namespace HunterVsDino.Enemies
         public static IReadOnlyList<EnemyController> All => enemies;
         public static int Count => enemies.Count;
 
+        /// <summary>Any enemy died. Loot, kill counters and effects listen here.</summary>
+        public static event System.Action<EnemyController> EnemyDied;
+
+        internal static void RaiseDied(EnemyController enemy) => EnemyDied?.Invoke(enemy);
+
         public static void Register(EnemyController enemy)
         {
             if (!enemies.Contains(enemy)) enemies.Add(enemy);
@@ -36,6 +41,10 @@ namespace HunterVsDino.Enemies
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        private static void ResetStatics() => enemies.Clear();
+        private static void ResetStatics()
+        {
+            enemies.Clear();
+            EnemyDied = null;
+        }
     }
 }

@@ -17,7 +17,7 @@ MonoBehaviour:
   - enemy: {fileID: 11400000, guid: fec5923bfbd935445ae7530fa48a89dc, type: 2}
     startTime: 0
     endTime: 900
-    ratePerSecondStart: 0.4
+    ratePerSecondStart: 0.25
     ratePerSecondEnd: 3
     groupSize: 3
     groupSpread: 1.2
