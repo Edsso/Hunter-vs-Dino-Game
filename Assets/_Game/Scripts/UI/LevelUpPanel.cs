@@ -23,7 +23,7 @@ namespace HunterVsDino.UI
         [SerializeField] private float inputDelay = 0.35f;
 
         private Player player;
-        private List<UpgradeData> choices = new();
+        private List<UpgradeChoice> choices = new();
         private float acceptInputAt;
 
         private void Awake()
@@ -86,10 +86,9 @@ namespace HunterVsDino.UI
                 return;
             }
 
-            var upgrades = player.GetComponent<PlayerUpgrades>();
             for (int i = 0; i < cards.Length; i++)
             {
-                if (i < choices.Count) cards[i].Show(choices[i], upgrades.GetLevel(choices[i]), i, Pick);
+                if (i < choices.Count) cards[i].Show(choices[i], i, Pick);
                 else cards[i].Hide();
             }
 
@@ -122,11 +121,11 @@ namespace HunterVsDino.UI
             if (index < choices.Count) Pick(choices[index]);
         }
 
-        private void Pick(UpgradeData upgrade)
+        private void Pick(UpgradeChoice choice)
         {
-            if (!root.activeSelf || Time.unscaledTime < acceptInputAt) return;
+            if (!root.activeSelf || Time.unscaledTime < acceptInputAt || choice == null) return;
 
-            player.GetComponent<PlayerUpgrades>().Apply(upgrade);
+            player.GetComponent<PlayerUpgrades>().Apply(choice);
             player.Experience.ConsumePendingLevelUp();
 
             root.SetActive(false);

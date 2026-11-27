@@ -1,17 +1,38 @@
+using System;
+using System.Collections.Generic;
+using HunterVsDino.Progression;
 using UnityEngine;
 
 namespace HunterVsDino.Combat
 {
     /// <summary>
-    /// Balance data for a projectile weapon. Create via Assets > Create > Hunter vs Dino > Weapon.
-    /// Upgrades (step 7) will modify a runtime copy of these numbers, never the asset itself.
+    /// Balance data for a weapon. Create via Assets > Create > Hunter vs Dino > Weapon.
+    /// <see cref="weaponPrefab"/> decides HOW it attacks (projectile, melee, thrown...);
+    /// this asset decides the numbers. Level bonuses and player upgrades are applied on a
+    /// runtime copy inside the Weapon component; the asset itself is never changed.
     /// </summary>
     [CreateAssetMenu(fileName = "Weapon", menuName = "Hunter vs Dino/Weapon")]
     public class WeaponData : ScriptableObject
     {
+        [Serializable]
+        public class WeaponLevel
+        {
+            [Tooltip("Shown on the level-up card, e.g. '+1 projétil'.")]
+            public string description;
+            public List<StatModifier> modifiers = new();
+        }
+
         [Header("Identity")]
         public string displayName = "Weapon";
         [TextArea] public string description;
+        public Color accentColor = Color.white;
+        public Sprite icon;
+
+        [Header("Behaviour")]
+        [Tooltip("Prefab with a Weapon component (e.g. ProjectileWeapon) that is spawned on the hunter.")]
+        public Weapon weaponPrefab;
+        [Tooltip("Relative chance of being offered on level up.")]
+        [Min(0.01f)] public float weight = 1f;
 
         [Header("Firing")]
         [Min(0.05f)] public float cooldown = 1f;
@@ -32,5 +53,11 @@ namespace HunterVsDino.Combat
         public Sprite projectileSprite;
         public Color projectileColor = Color.yellow;
         [Min(0.05f)] public float projectileSize = 0.25f;
+
+        [Header("Levels")]
+        [Tooltip("Bonus gained at each level after the first. Level 2 = element 0.")]
+        public List<WeaponLevel> levels = new();
+
+        public int MaxLevel => levels.Count + 1;
     }
 }

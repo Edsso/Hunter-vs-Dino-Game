@@ -14,33 +14,33 @@ namespace HunterVsDino.UI
         [SerializeField] private TMPro.TMP_Text description;
         [SerializeField] private TMPro.TMP_Text hotkey;
 
-        private UpgradeData upgrade;
-        private Action<UpgradeData> onPicked;
+        private UpgradeChoice choice;
+        private Action<UpgradeChoice> onPicked;
 
         public UnityEngine.UI.Button Button => button;
 
         private void Awake()
         {
-            button.onClick.AddListener(() => onPicked?.Invoke(upgrade));
+            button.onClick.AddListener(() => onPicked?.Invoke(choice));
         }
 
-        public void Show(UpgradeData data, int currentLevel, int index, Action<UpgradeData> picked)
+        public void Show(UpgradeChoice upgradeChoice, int index, Action<UpgradeChoice> picked)
         {
-            upgrade = data;
+            choice = upgradeChoice;
             onPicked = picked;
             gameObject.SetActive(true);
 
-            title.text = data.displayName;
-            description.text = data.description;
-            accent.color = data.accentColor;
-            levelLabel.text = currentLevel == 0 ? "NOVO" : data.maxLevel > 0 ? $"Nv {currentLevel} → {currentLevel + 1}" : "";
+            title.text = choice.Title;
+            description.text = choice.Description;
+            accent.color = choice.Accent;
+            levelLabel.text = choice.LevelText;
             if (hotkey != null) hotkey.text = (index + 1).ToString();
         }
 
         public void Hide()
         {
             gameObject.SetActive(false);
-            upgrade = null;
+            choice = null;
             onPicked = null;
         }
     }

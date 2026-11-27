@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e19eec35fb7f97448b88be1c18c9b00, type: 3}
+  m_Name: Espingarda
+  m_EditorClassIdentifier: HunterVsDino::HunterVsDino.Combat.WeaponData
+  displayName: Espingarda
+  description: "Leque de chumbo de curto alcance. \xD3tima contra bandos."
+  accentColor: {r: 0.95, g: 0.6, b: 0.3, a: 1}
+  icon: {fileID: 0}
+  weaponPrefab: {fileID: 5153479662150307017, guid: a3c09fd5dad6e3d498da31d341362221, type: 3}
+  weight: 1
+  cooldown: 1.3
+  range: 5
+  projectileCount: 5
+  spreadAngle: 40
+  damage: 4
+  projectileSpeed: 16
+  projectileLifetime: 0.35
+  pierce: 0
+  projectileSprite: {fileID: 21300000, guid: e23259d4da7592d4cb9b21b1f2af0a81, type: 3}
+  projectileColor: {r: 1, g: 0.7, b: 0.4, a: 1}
+  projectileSize: 0.18
+  levels:
+  - description: "+2 proj\xE9teis."
+    modifiers:
+    - stat: 5
+      value: 2
+  - description: +30% de dano.
+    modifiers:
+    - stat: 0
+      value: 0.3
+  - description: "Recarga 20% mais r\xE1pida."
+    modifiers:
+    - stat: 1
+      value: 0.2
+  - description: "+2 proj\xE9teis e atravessa +1 dinossauro."
+    modifiers:
+    - stat: 5
+      value: 2
+    - stat: 6
+      value: 1

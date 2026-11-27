@@ -21,4 +21,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 45a3e4a5335900541b3446ba8dda9820, type: 2}
   - {fileID: 11400000, guid: 52ab7596c89371c418004853be00737a, type: 2}
   - {fileID: 11400000, guid: bc3a5f9cb8df2da42b07b0407bcd39ee, type: 2}
+  weapons:
+  - {fileID: 11400000, guid: f9f463a11e8d4d34b9aae5a1c75cd83d, type: 2}
+  - {fileID: 11400000, guid: addbd23da62b4fd4aaa30f8ce1672118, type: 2}
   fallback: {fileID: 11400000, guid: de88e516e943f3a44abf54a4ba616a07, type: 2}

@@ -28,8 +28,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 2060804169777978424}
+  m_Children: []
   m_Father: {fileID: 1329392926358366108}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1252390514496865003
@@ -52,6 +51,7 @@ GameObject:
   - component: {fileID: 5483794664122776396}
   - component: {fileID: 834591949758839888}
   - component: {fileID: 1447691002331966826}
+  - component: {fileID: 5470675927571489472}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -261,6 +261,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cabcb637d39dc234688c5ed45211b533, type: 3}
   m_Name: 
   m_EditorClassIdentifier: HunterVsDino::HunterVsDino.Progression.PlayerUpgrades
+--- !u!114 &5470675927571489472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252390514496865003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39560a9173b778941aa46ef69424f9c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HunterVsDino::HunterVsDino.Combat.PlayerWeapons
+  startingWeapon: {fileID: 11400000, guid: f9f463a11e8d4d34b9aae5a1c75cd83d, type: 2}
+  weaponsRoot: {fileID: 5748658837771123123}
+  maxWeapons: 6
 --- !u!1 &3930293985363808592
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,49 +368,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
---- !u!1 &8747107521809699029
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2060804169777978424}
-  - component: {fileID: 3276420153341958215}
-  m_Layer: 6
-  m_Name: Rifle
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2060804169777978424
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8747107521809699029}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5748658837771123123}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3276420153341958215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8747107521809699029}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f57a36e1c478094cadcc1b704cf2c75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: HunterVsDino::HunterVsDino.Combat.Weapon
-  data: {fileID: 11400000, guid: f9f463a11e8d4d34b9aae5a1c75cd83d, type: 2}
-  projectilePrefab: {fileID: 2485679370203220606, guid: 59c41f3c3ec7ee5409d288ea87a531e7, type: 3}

@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: HunterVsDino::HunterVsDino.Combat.WeaponData
   displayName: Rifle
   description: "Dispara no dinossauro mais pr\xF3ximo."
+  accentColor: {r: 1, g: 0.95, b: 0.6, a: 1}
+  icon: {fileID: 0}
+  weaponPrefab: {fileID: 5153479662150307017, guid: a3c09fd5dad6e3d498da31d341362221, type: 3}
+  weight: 1
   cooldown: 0.6
   range: 9
   projectileCount: 1
@@ -25,3 +29,22 @@ MonoBehaviour:
   projectileSprite: {fileID: 21300000, guid: e23259d4da7592d4cb9b21b1f2af0a81, type: 3}
   projectileColor: {r: 1, g: 0.95, b: 0.6, a: 1}
   projectileSize: 0.25
+  levels:
+  - description: "+1 proj\xE9til."
+    modifiers:
+    - stat: 5
+      value: 1
+  - description: +25% de dano.
+    modifiers:
+    - stat: 0
+      value: 0.25
+  - description: Atravessa +1 dinossauro.
+    modifiers:
+    - stat: 6
+      value: 1
+  - description: "+1 proj\xE9til e recarga 15% mais r\xE1pida."
+    modifiers:
+    - stat: 5
+      value: 1
+    - stat: 1
+      value: 0.15
