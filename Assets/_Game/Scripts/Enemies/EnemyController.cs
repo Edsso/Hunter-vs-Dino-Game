@@ -50,6 +50,7 @@ namespace HunterVsDino.Enemies
         public void Init(EnemyData enemyData, Vector2 position, float healthMultiplier = 1f, float damageMultiplier = 1f)
         {
             data = enemyData;
+            rootedUntil = 0f;
             transform.position = position;
             body.position = position;
             body.linearVelocity = Vector2.zero;
@@ -58,6 +59,18 @@ namespace HunterVsDino.Enemies
 
         /// <summary>Contact damage after the difficulty multiplier of when it spawned.</summary>
         public float ContactDamage { get; private set; }
+
+        private float rootedUntil;
+
+        /// <summary>Held in place (trap, bola). It can still be hit and still hurts on contact.</summary>
+        public bool IsRooted => Time.time < rootedUntil;
+
+        /// <summary>Stops the dino for <paramref name="seconds"/>. Bosses shake it off 4x faster.</summary>
+        public void Root(float seconds)
+        {
+            if (data != null && data.isBoss) seconds *= 0.25f;
+            rootedUntil = Mathf.Max(rootedUntil, Time.time + seconds);
+        }
 
         private void ApplyData(float healthMultiplier = 1f, float damageMultiplier = 1f)
         {
@@ -78,6 +91,12 @@ namespace HunterVsDino.Enemies
 
         private void FixedUpdate()
         {
+            if (IsRooted)
+            {
+                body.linearVelocity = Vector2.zero;
+                return;
+            }
+
             Player target = PlayerRegistry.GetNearest(body.position);
             if (target == null || data == null)
             {

@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e19eec35fb7f97448b88be1c18c9b00, type: 3}
+  m_Name: Arpao
+  m_EditorClassIdentifier: HunterVsDino::HunterVsDino.Combat.WeaponData
+  displayName: "Arp\xE3o"
+  description: "Lento e pesado: atravessa v\xE1rios dinos em linha."
+  accentColor: {r: 0.55, g: 0.75, b: 0.9, a: 1}
+  icon: {fileID: 0}
+  weaponPrefab: {fileID: 5153479662150307017, guid: a3c09fd5dad6e3d498da31d341362221, type: 3}
+  weight: 1
+  cooldown: 1.8
+  range: 10
+  projectileCount: 1
+  spreadAngle: 10
+  damage: 16
+  projectileSpeed: 11
+  projectileLifetime: 2
+  pierce: 4
+  area: 1.5
+  effectDuration: 2
+  projectileSprite: {fileID: 21300000, guid: 5752aff964a641846ba8562476ff58a4, type: 3}
+  projectileColor: {r: 0.7, g: 0.85, b: 1, a: 1}
+  projectileSize: 0.4
+  levels:
+  - description: Atravessa +1 dino e +25% de dano.
+    modifiers:
+    - stat: 6
+      value: 1
+    - stat: 0
+      value: 0.25
+  - description: "+1 arp\xE3o."
+    modifiers:
+    - stat: 5
+      value: 1
+  - description: +40% de dano.
+    modifiers:
+    - stat: 0
+      value: 0.4
+  - description: "Atravessa +2 dinos e recarga 15% mais r\xE1pida."
+    modifiers:
+    - stat: 6
+      value: 2
+    - stat: 1
+      value: 0.15

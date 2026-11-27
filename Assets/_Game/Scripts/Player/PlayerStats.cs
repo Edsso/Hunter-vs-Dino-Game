@@ -16,6 +16,8 @@ namespace HunterVsDino.Players
         public float ProjectileSpeedMultiplier { get; private set; } = 1f;
         public int ExtraProjectiles { get; private set; }
         public int ExtraPierce { get; private set; }
+        public float AreaMultiplier { get; private set; } = 1f;
+        public float DurationMultiplier { get; private set; } = 1f;
 
         private float cooldownReduction;
         private float moveSpeedBonus;
@@ -46,6 +48,8 @@ namespace HunterVsDino.Players
                 case StatType.ProjectileSpeedPercent: ProjectileSpeedMultiplier += mod.value; break;
                 case StatType.ProjectileCount: ExtraProjectiles += Mathf.RoundToInt(mod.value); break;
                 case StatType.Pierce: ExtraPierce += Mathf.RoundToInt(mod.value); break;
+                case StatType.AreaPercent: AreaMultiplier += mod.value; break;
+                case StatType.DurationPercent: DurationMultiplier += mod.value; break;
                 case StatType.MoveSpeedPercent:
                     moveSpeedBonus += mod.value;
                     if (motor != null) motor.MoveSpeed = baseMoveSpeed * (1f + moveSpeedBonus);

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: TRex
   m_EditorClassIdentifier: HunterVsDino::HunterVsDino.Enemies.EnemyData
   displayName: T-Rex
+  isBoss: 1
   sprite: {fileID: 21300000, guid: 3532a4a7c8fb34045a80f52e9383fe5b, type: 3}
   color: {r: 0.45, g: 0.12, b: 0.1, a: 1}
   size: 2.6

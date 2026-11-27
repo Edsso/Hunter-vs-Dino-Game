@@ -14,7 +14,10 @@ namespace HunterVsDino.Progression
         [Tooltip("+1 = one more projectile per shot")] ProjectileCount,
         [Tooltip("+1 = goes through one more enemy")] Pierce,
         [Tooltip("+0.2 = +20% projectile speed")] ProjectileSpeedPercent,
-        [Tooltip("+30 = heals 30 now (one-off)")] HealFlat
+        [Tooltip("+30 = heals 30 now (one-off)")] HealFlat,
+        // Append new stats at the end only: assets store the enum as a number.
+        [Tooltip("+0.15 = +15% area (blasts, slashes, traps)")] AreaPercent,
+        [Tooltip("+0.2 = +20% effect duration (traps, roots)")] DurationPercent
     }
 
     [Serializable]

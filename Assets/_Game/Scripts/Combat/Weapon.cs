@@ -30,6 +30,8 @@ namespace HunterVsDino.Combat
         private float speedBonus;
         private int extraProjectiles;
         private int extraPierce;
+        private float areaBonus;
+        private float durationBonus;
 
         public WeaponData Data => data;
         public int Level { get; private set; } = 1;
@@ -40,7 +42,7 @@ namespace HunterVsDino.Combat
             data = weaponData;
             ownerStats = owner;
             Level = 1;
-            damageBonus = cooldownReduction = speedBonus = 0f;
+            damageBonus = cooldownReduction = speedBonus = areaBonus = durationBonus = 0f;
             extraProjectiles = extraPierce = 0;
             OnInit();
         }
@@ -63,6 +65,8 @@ namespace HunterVsDino.Combat
                 case StatType.ProjectileSpeedPercent: speedBonus += mod.value; break;
                 case StatType.ProjectileCount: extraProjectiles += Mathf.RoundToInt(mod.value); break;
                 case StatType.Pierce: extraPierce += Mathf.RoundToInt(mod.value); break;
+                case StatType.AreaPercent: areaBonus += mod.value; break;
+                case StatType.DurationPercent: durationBonus += mod.value; break;
                 default: Debug.LogWarning($"{data.displayName}: stat {mod.stat} has no effect on a weapon level.", this); break;
             }
         }
@@ -77,6 +81,11 @@ namespace HunterVsDino.Combat
         protected float ProjectileSpeed => data.projectileSpeed * (1f + speedBonus) * (HasOwner ? ownerStats.ProjectileSpeedMultiplier : 1f);
         protected int ProjectileCount => data.projectileCount + extraProjectiles + (HasOwner ? ownerStats.ExtraProjectiles : 0);
         protected int Pierce => data.pierce + extraPierce + (HasOwner ? ownerStats.ExtraPierce : 0);
+        protected float Area => data.area * (1f + areaBonus) * (HasOwner ? ownerStats.AreaMultiplier : 1f);
+        protected float EffectDuration => data.effectDuration * (1f + durationBonus) * (HasOwner ? ownerStats.DurationMultiplier : 1f);
+
+        /// <summary>Position the weapon attacks from (the hunter).</summary>
+        protected Vector2 Origin => transform.position;
 
         protected ShotStats CurrentShot => new()
         {

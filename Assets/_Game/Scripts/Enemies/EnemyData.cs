@@ -11,6 +11,8 @@ namespace HunterVsDino.Enemies
     {
         [Header("Identity")]
         public string displayName = "Dino";
+        [Tooltip("Bosses resist roots and can't be tamed.")]
+        public bool isBoss;
 
         [Header("Look (placeholder until final art)")]
         public Sprite sprite;

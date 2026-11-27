@@ -49,6 +49,12 @@ namespace HunterVsDino.Combat
         [Tooltip("How many extra enemies a projectile goes through. 0 = stops at the first.")]
         [Min(0)] public int pierce;
 
+        [Header("Area / effects (melee, explosives, traps)")]
+        [Tooltip("Radius of a slash, blast or trap, in world units.")]
+        [Min(0.1f)] public float area = 1.5f;
+        [Tooltip("How long an effect lasts (e.g. how long a trap holds a dino).")]
+        [Min(0f)] public float effectDuration = 2f;
+
         [Header("Look (placeholder until final art)")]
         public Sprite projectileSprite;
         public Color projectileColor = Color.yellow;
