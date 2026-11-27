@@ -29,14 +29,23 @@ namespace HunterVsDino.Enemies
             cam = Camera.main;
         }
 
+        /// <summary>Normal waves stop (e.g. when the boss arrives).</summary>
+        public bool WavesEnabled { get; set; } = true;
+
+        /// <summary>0..1 progress of the run.</summary>
+        private float RunProgress => runTimer != null ? Mathf.Clamp01(runTimer.Elapsed / runTimer.Duration) : 0f;
+
+        /// <summary>Run time mapped onto the schedule's designed length (compresses a short test run).</summary>
+        private float ScheduleTime => RunProgress * waves.designedDuration;
+
         private void Update()
         {
-            if (waves == null || enemyPrefab == null || runTimer == null || !runTimer.IsRunning) return;
+            if (!WavesEnabled || waves == null || enemyPrefab == null || runTimer == null || !runTimer.IsRunning) return;
             if (PlayerRegistry.All.Count == 0) return;
 
             while (credits.Count < waves.entries.Count) credits.Add(0f);
 
-            float time = runTimer.Elapsed;
+            float time = ScheduleTime;
             for (int i = 0; i < waves.entries.Count; i++)
             {
                 var entry = waves.entries[i];
@@ -53,22 +62,30 @@ namespace HunterVsDino.Enemies
 
         private void SpawnGroup(WaveData.SpawnEntry entry)
         {
-            // Pick a random hunter so in co-op every player gets pressure.
-            var players = PlayerRegistry.All;
-            Vector2 center = players[Random.Range(0, players.Count)].transform.position;
-            Vector2 groupPos = center + Random.insideUnitCircle.normalized * SpawnRadius();
+            Vector2 groupPos = RandomOffscreenPoint();
+            float p = RunProgress;
+            float hpMul = waves.healthMultiplier.Evaluate(p);
+            float dmgMul = waves.damageMultiplier.Evaluate(p);
 
             for (int n = 0; n < entry.groupSize; n++)
             {
                 if (EnemyRegistry.Count >= waves.maxAlive) return;
-                Spawn(entry.enemy, groupPos + Random.insideUnitCircle * entry.groupSpread);
+                Spawn(entry.enemy, groupPos + Random.insideUnitCircle * entry.groupSpread, hpMul, dmgMul);
             }
         }
 
-        public EnemyController Spawn(EnemyData data, Vector2 position)
+        /// <summary>A point just outside the view of a random hunter (in co-op every player gets pressure).</summary>
+        public Vector2 RandomOffscreenPoint()
+        {
+            var players = PlayerRegistry.All;
+            Vector2 center = players.Count > 0 ? players[Random.Range(0, players.Count)].transform.position : Vector2.zero;
+            return center + Random.insideUnitCircle.normalized * SpawnRadius();
+        }
+
+        public EnemyController Spawn(EnemyData data, Vector2 position, float healthMultiplier = 1f, float damageMultiplier = 1f)
         {
             var enemy = Instantiate(enemyPrefab, position, Quaternion.identity, transform);
-            enemy.Init(data, position);
+            enemy.Init(data, position, healthMultiplier, damageMultiplier);
             return enemy;
         }
 

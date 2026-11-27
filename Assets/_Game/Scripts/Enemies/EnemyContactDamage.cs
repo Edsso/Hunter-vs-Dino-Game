@@ -33,7 +33,7 @@ namespace HunterVsDino.Enemies
             if (Time.time < nextHitTime || enemy.Data == null) return;
             if (!collision.collider.TryGetComponent(out Player player) || player.IsDead) return;
 
-            player.Health.TakeDamage(enemy.Data.contactDamage);
+            player.Health.TakeDamage(enemy.ContactDamage);
             nextHitTime = Time.time + hitInterval;
         }
     }

@@ -44,6 +44,16 @@ namespace HunterVsDino.Enemies
         [Tooltip("Hard cap of enemies alive at once (performance safety net).")]
         [Min(1)] public int maxAlive = 300;
 
+        [Tooltip("Run length the entry times were written for (900 = 15 min). If the RunTimer is shorter " +
+                 "(e.g. 60 s for testing), the whole schedule is compressed to fit.")]
+        [Min(1f)] public float designedDuration = 900f;
+
+        [Header("Difficulty over the run (X = 0..1 of the run)")]
+        [Tooltip("Enemy max health multiplier.")]
+        public AnimationCurve healthMultiplier = AnimationCurve.Linear(0f, 1f, 1f, 4f);
+        [Tooltip("Enemy contact damage multiplier.")]
+        public AnimationCurve damageMultiplier = AnimationCurve.Linear(0f, 1f, 1f, 2f);
+
         public List<SpawnEntry> entries = new();
     }
 }

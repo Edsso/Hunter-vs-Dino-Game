@@ -47,21 +47,25 @@ namespace HunterVsDino.Enemies
         /// Sets up this enemy for a new life. Called by the spawner right after creating it
         /// (and later, when pooling, every time it is reused).
         /// </summary>
-        public void Init(EnemyData enemyData, Vector2 position)
+        public void Init(EnemyData enemyData, Vector2 position, float healthMultiplier = 1f, float damageMultiplier = 1f)
         {
             data = enemyData;
             transform.position = position;
             body.position = position;
             body.linearVelocity = Vector2.zero;
-            ApplyData();
+            ApplyData(healthMultiplier, damageMultiplier);
         }
 
-        private void ApplyData()
+        /// <summary>Contact damage after the difficulty multiplier of when it spawned.</summary>
+        public float ContactDamage { get; private set; }
+
+        private void ApplyData(float healthMultiplier = 1f, float damageMultiplier = 1f)
         {
             name = data.displayName;
             transform.localScale = Vector3.one * data.size;
             body.mass = data.mass;
-            Health.ResetHealth(data.maxHealth);
+            Health.ResetHealth(data.maxHealth * healthMultiplier);
+            ContactDamage = data.contactDamage * damageMultiplier;
             if (spriteRenderer != null)
             {
                 if (data.sprite != null) spriteRenderer.sprite = data.sprite;

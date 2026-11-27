@@ -31,6 +31,19 @@ namespace HunterVsDino.UI
             root.SetActive(false);
         }
 
+        private void OnEnable() => gameManager.StateChanged += OnStateChanged;
+        private void OnDisable() => gameManager.StateChanged -= OnStateChanged;
+
+        // The run can end while the screen is open (e.g. the boss dies to a lingering projectile): close it.
+        private void OnStateChanged(RunState state)
+        {
+            if ((state == RunState.GameOver || state == RunState.Victory) && root.activeSelf)
+            {
+                root.SetActive(false);
+                foreach (var c in cards) c.Hide();
+            }
+        }
+
         private void Update()
         {
             if (player == null && PlayerRegistry.All.Count > 0) Bind(PlayerRegistry.All[0]);
@@ -61,7 +74,8 @@ namespace HunterVsDino.UI
 
         private void Open()
         {
-            if (player.IsDead || !gameManager.EnterLevelUp()) return;
+            if (player.IsDead || gameManager.State != RunState.Playing) return;
+            if (!gameManager.EnterLevelUp()) return;
 
             choices = player.GetComponent<PlayerUpgrades>().RollChoices(pool, cards.Length);
             if (choices.Count == 0)

@@ -75,6 +75,13 @@ namespace HunterVsDino.Core
             SetState(RunState.GameOver);
         }
 
+        public void Victory()
+        {
+            if (State == RunState.GameOver || State == RunState.Victory) return;
+            runTimer.Pause();
+            SetState(RunState.Victory);
+        }
+
         public void Restart()
         {
             Time.timeScale = 1f;
